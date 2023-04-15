@@ -14,11 +14,29 @@ namespace EmployeeList.Pages.Employees
                 String connectionString = "Data Source=DESKTOP-HR20LU4;Initial Catalog=ListOfEmployees;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString)) 
                 {
-                    sqlConnection.Open(); 
+                    sqlConnection.Open();
+                    String sql = "SELECT * FROM Employee";
+                    using(SqlCommand cmd = new SqlCommand(sql, sqlConnection))
+                    {
+                        using(SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                EmployeesInfo info = new EmployeesInfo();
+                                info.id = " " +reader.GetInt32(0);
+                                info.FirstName = reader.GetString(1);
+                                info.LastName = reader.GetString(2);    
+                                info.Email = reader.GetString(3);  
+                                info.Phone= reader.GetString(4);
+
+                                ListEmployees.Add(info);
+                            }
+                        }
+                    }
                 }
             }
             catch(Exception ex) { 
-            
+                Console.WriteLine("exception: "+ ex.ToString());
             }
         }
 
