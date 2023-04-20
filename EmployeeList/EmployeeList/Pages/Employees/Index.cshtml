@@ -7,16 +7,30 @@
 <a class='btn btn-primary btn-sm' href='/Employee/Create'>New Employee</a>
 
 <table class="table">
-    <thread>
+    <thead>
         <tr>
             <th>Id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Action</th>
         </tr>
-    </thread>
+    </thead>
     <tbody>
-
+        @foreach (var item in Model.ListEmployees)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="/Employee/Edit?id=@item.id">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/Employee/Delete?id=@item.id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
