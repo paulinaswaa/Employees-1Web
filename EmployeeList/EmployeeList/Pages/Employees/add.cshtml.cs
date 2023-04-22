@@ -21,9 +21,8 @@ namespace EmployeeList.Pages.Employees
             employeesInfo.Email = Request.Form["Email"];
             employeesInfo.Phone = Request.Form["Phone"];
 
-
-            if (employeesInfo.Email.Length == 0 || employeesInfo.Phone.Length == 0 ||
-                employeesInfo.LastName.Length == 0 || employeesInfo.LastName.Length == 0)
+            if (string.IsNullOrEmpty(employeesInfo.FirstName) || string.IsNullOrEmpty(employeesInfo.LastName) ||
+                string.IsNullOrEmpty(employeesInfo.Email) || string.IsNullOrEmpty(employeesInfo.Phone))
             {
                 errorMessage = "Complete the data!";
                 return;
@@ -31,43 +30,40 @@ namespace EmployeeList.Pages.Employees
 
             try
             {
-                String ConnectionString = "Server=DESKTOP-HR20LU4; Database=ListOfEmployees; Trusted_Connection=true;";
-
-
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                string connectionString = "Server=DESKTOP-HR20LU4; Database=ListOfEmployees; Trusted_Connection=true;";
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
-                    String sql = "INSERT INTO Employee(FirstName, LastName, Email, Phone) VALUES (@firstName, @lastName, @email, @phone)";
-
+                    string sql = "INSERT INTO TEST3(FirstName, LastName, Email, Phone) VALUES (@firstName, @lastName, @email, @phone)";
                     using (SqlCommand sqlCommand = new SqlCommand(sql, sqlConnection))
                     {
-                        sqlCommand.Parameters.AddWithValue(@"firstName", employeesInfo.FirstName);
-                        sqlCommand.Parameters.AddWithValue(@"lastName", employeesInfo.LastName);
-                        sqlCommand.Parameters.AddWithValue(@"email", employeesInfo.Email);
-                        sqlCommand.Parameters.AddWithValue(@"phone", employeesInfo.Phone);
+                        sqlCommand.Parameters.AddWithValue("@firstName", employeesInfo.FirstName);
+                        sqlCommand.Parameters.AddWithValue("@lastName", employeesInfo.LastName);
+                        sqlCommand.Parameters.AddWithValue("@email", employeesInfo.Email);
+                        sqlCommand.Parameters.AddWithValue("@phone", employeesInfo.Phone);
                         sqlCommand.ExecuteNonQuery();
-
-
                     }
-
                 }
+
+                employeesInfo.FirstName = "";
+                employeesInfo.LastName = "";
+                employeesInfo.Email = "";
+                employeesInfo.Phone = "";
+                correctMessage = "Added correctly!";
             }
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
                 return;
             }
-            employeesInfo.FirstName = "";
-            employeesInfo.LastName = "";
-            employeesInfo.Email = "";
-            employeesInfo.Phone = "";
-            correctMessage = "Added correctly!";
 
             Response.Redirect("/Employees/Index");
         }
 
 
-            
-            
+
+
+
+
     }
 }

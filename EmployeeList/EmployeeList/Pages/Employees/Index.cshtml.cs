@@ -23,7 +23,7 @@ namespace EmployeeList.Pages.Employees
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
                     sqlConnection.Open();
-                    String sql = "SELECT * FROM Employee";
+                    String sql = "SELECT * FROM TEST3";
                     using (SqlCommand cmd = new SqlCommand(sql, sqlConnection))
                     {
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -51,6 +51,7 @@ namespace EmployeeList.Pages.Employees
 
       
     }
+   
 
     public class EmployeesInfo
     {
